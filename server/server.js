@@ -2,8 +2,10 @@ const express = require("express");
 const jwt = require("jsonwebtoken");
 const mongoose = require("mongoose");
 const cors = require("cors");
+require("dotenv").config();
 const app = express();
-const SECRET = "it's a super secret String";
+const SECRET = process.env.SECRET;
+
 app.use(express.json());
 app.use(cors());
 
@@ -28,10 +30,10 @@ let ADMINS = mongoose.model("Admin", adminSchema);
 let USERS = mongoose.model("User", userSchema);
 let COURSES = mongoose.model("Courses", courseSchema);
 
-mongoose.connect(
-  "mongodb+srv://asbar03kk:IF9i1WWyT9f4T8zO@cluster0.gzhni69.mongodb.net/",
-  { useNewUrlParser: true, useUnifiedTopology: true }
-);
+mongoose.connect(process.env.mongoSecret, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+});
 
 function generateJwt(user) {
   if (user) {

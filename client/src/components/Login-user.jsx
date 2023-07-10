@@ -1,3 +1,4 @@
+import { Button, TextField } from "@mui/material";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -8,25 +9,33 @@ function LoginUser() {
   const navigate = useNavigate();
 
   return (
-    <div>
-      <h1>Login</h1>
-      <br />
-      Email -{" "}
-      <input
+    <div style={{ padding: "20px" }}>
+      <TextField
+        style={{ width: "80%" }}
         type={"email"}
+        id="filled-required-email"
+        label="Email"
         required
+        variant="filled"
+        size="small"
         onChange={(e) => setUsername(e.target.value)}
       />
       <br />
       <br />
-      Password -{" "}
-      <input
-        type={"password"}
+      <TextField
+        style={{ width: "80%" }}
+        id="filled-required-password"
+        label="Password"
         required
+        variant="filled"
+        type={"password"}
+        size="small"
         onChange={(e) => setPassword(e.target.value)}
       />
       <br />
-      <button
+      <Button
+        sx={{ margin: "10px" }}
+        variant="contained"
         onClick={() => {
           fetch("http://localhost:3000/users/login", {
             method: "POST",
@@ -50,9 +59,8 @@ function LoginUser() {
         }}
       >
         Login
-      </button>
+      </Button>
       <br />
-      New here? <a href="/register">Register</a>
     </div>
   );
 }

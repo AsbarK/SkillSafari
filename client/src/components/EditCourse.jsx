@@ -1,3 +1,4 @@
+import { Button, TextField, Grid } from "@mui/material";
 import React from "react";
 
 function EditCourse(props) {
@@ -5,7 +6,8 @@ function EditCourse(props) {
   const [description, setDescription] = React.useState("");
   const [price, setPrice] = React.useState("");
   const [imgUrl, setImgUrl] = React.useState("");
-  const [toggle, setToggle] = React.useState(false);
+  const [editing, setEditing] = React.useState(false);
+
   function createCourseBtn() {
     fetch("http://localhost:3000/admin/courses/" + props.id, {
       method: "PUT",
@@ -22,51 +24,102 @@ function EditCourse(props) {
       }),
     }).catch((err) => console.log(err));
   }
+
+  const handleToggle = () => {
+    setEditing((prevEditing) => !prevEditing);
+    if (!editing) {
+      setTitle("");
+      setDescription("");
+      setPrice("");
+      setImgUrl("");
+    }
+  };
+
+  const handleUpdateCourse = () => {
+    if (title === "" || description === "" || price === "") {
+      return;
+    }
+    createCourseBtn();
+    handleToggle();
+  };
+
   return (
     <>
-      {toggle && (
-        <>
-          Title -{" "}
-          <input
-            type="text"
-            required
-            onChange={(e) => setTitle(e.target.value)}
-          />
-          Description -{" "}
-          <input
-            type="text"
-            required
-            onChange={(e) => setDescription(e.target.value)}
-          />
-          Price -{" "}
-          <input
-            type="number"
-            required
-            onChange={(e) => setPrice(e.target.value)}
-          />
-          Image-Url -{" "}
-          <input
-            type="text"
-            required
-            onChange={(e) => setImgUrl(e.target.value)}
-          />
-        </>
-      )}{" "}
-      <button
-        onClick={() => {
-          if (title == null || description == null || price == null) {
-            setToggle(false);
-          }
-          if (toggle) {
-            createCourseBtn();
-            setToggle(false);
-          } else {
-            setToggle(true);
-          }
-        }}
-      >
-        Update Course
-      </button>
+      {editing && (
+        <div
+          style={{
+            backgroundColor: "#FCAEAE",
+            margin: "15px 20px 5px",
+            borderRadius: "20px",
+            border: "solid black 1px",
+            padding: "1rem",
+            marginBottom: "10px",
+          }}
+        >
+          <Grid container spacing={2} direction="column">
+            <Grid item>
+              <TextField
+                type="text"
+                fullWidth
+                id="filled-required-Title"
+                label="Title"
+                required
+                variant="filled"
+                size="small"
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+              />
+            </Grid>
+            <Grid item>
+              <TextField
+                type="text"
+                fullWidth
+                id="filled-required-Description"
+                label="Description"
+                required
+                variant="filled"
+                size="small"
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+              />
+            </Grid>
+            <Grid item>
+              <TextField
+                type="number"
+                fullWidth
+                id="filled-required-Price"
+                label="Price"
+                required
+                variant="filled"
+                size="small"
+                value={price}
+                onChange={(e) => setPrice(e.target.value)}
+              />
+            </Grid>
+            <Grid item>
+              <TextField
+                type="text"
+                fullWidth
+                id="filled-required-Image-Url"
+                label="Image-Url"
+                required
+                variant="filled"
+                size="small"
+                value={imgUrl}
+                onChange={(e) => setImgUrl(e.target.value)}
+              />
+            </Grid>
+          </Grid>
+        </div>
+      )}
+      <Button variant="contained" onClick={handleToggle}>
+        {editing ? "Cancel" : "Update Course"}
+      </Button>
+      {editing && (
+        <Button variant="contained" onClick={handleUpdateCourse}>
+          Save Changes
+        </Button>
+      )}
     </>
   );
 }

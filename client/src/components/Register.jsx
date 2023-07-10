@@ -1,13 +1,14 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import { Button, TextField } from "@mui/material";
 
 /// File is incomplete. You need to add input boxes to take input for users to register.
 function Register() {
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
+  const [confirmPassword, setConfirmPassword] = React.useState("");
   const navigate = useNavigate();
   function signup() {
-    let confirmPassword = document.getElementById("confirm-password").value;
     if (password !== confirmPassword) {
       alert("password and confirmPassword should be same");
     } else {
@@ -25,30 +26,45 @@ function Register() {
   }
 
   return (
-    <div>
-      <h1>Register to the website</h1>
-      <br />
-      Email -{" "}
-      <input
+    <div style={{ padding: "20px" }}>
+      <TextField
+        style={{ width: "80%" }}
         type={"email"}
+        id="filled-required-email"
+        label="Email"
         required
+        variant="filled"
+        size="small"
         onChange={(e) => setEmail(e.target.value)}
       />
       <br />
       <br />
-      Password -{" "}
-      <input
+      <TextField
+        style={{ width: "80%" }}
+        id="filled-required-password"
+        label="Password"
         required
+        variant="filled"
         type={"password"}
+        size="small"
         onChange={(e) => setPassword(e.target.value)}
       />
       <br />
       <br />
-      Confirm-Password -{" "}
-      <input id="confirm-password" required type={"password"} />
+      <TextField
+        style={{ width: "80%" }}
+        onChange={(e) => setConfirmPassword(e.target.value)}
+        id="filled-required-cofirmPassword"
+        label="Confirm-Password"
+        required
+        variant="filled"
+        size="small"
+        type={"password"}
+      />
       <br />
-      <button onClick={signup}>SignUP</button>
-      Already a user? <a href="/login-admin">Login</a>
+      <Button variant="contained" sx={{ margin: "10px" }} onClick={signup}>
+        SignUP
+      </Button>
     </div>
   );
 }

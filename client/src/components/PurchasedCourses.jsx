@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { Card, Typography, Box } from "@mui/material";
 
 function PurchasedCourses() {
   const [purchasedCourses, setPurchasedCourses] = useState([]);
@@ -16,7 +17,7 @@ function PurchasedCourses() {
   }, [purchasedCourses]);
 
   return (
-    <>
+    <Box display="flex" flexWrap="wrap" justifyContent="center" gap={2}>
       {purchasedCourses.map((pc, index) => {
         return (
           <Course
@@ -25,22 +26,42 @@ function PurchasedCourses() {
             description={pc.description}
             price={pc.price}
             id={pc._id}
+            img={pc.imageLink}
           ></Course>
         );
       })}
-    </>
+    </Box>
   );
 }
 
 function Course(props) {
   return (
-    <Link to={"/purchasedCourses/" + props.id}>
-      <div>
-        <h1>{props.title}</h1>
-        <h4>{props.description}</h4>
-        <h6>{props.price}</h6>
-      </div>
-    </Link>
+    <center>
+      <Link to={"/purchasedCourses/" + props.id}>
+        <Card
+          sx={{
+            backgroundColor: "#FCAEAE",
+            border: "solid black 1px",
+            borderRadius: "20px",
+            width: "400px",
+            height: "300px",
+          }}
+        >
+          <img
+            src={props.img}
+            alt={props.title}
+            height="200px"
+            style={{ objectFit: "cover", borderRadius: "10px" }}
+          />
+          <Typography variant="h5" sx={{ color: "#2D4356" }}>
+            {props.title}
+          </Typography>
+          <Typography variant="h8" sx={{ color: "#2D4356" }}>
+            {props.description}
+          </Typography>
+        </Card>
+      </Link>
+    </center>
   );
 }
 
