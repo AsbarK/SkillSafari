@@ -27,16 +27,28 @@ SkillSafari is a Course-Selling website that provides a platform for users to di
 To get started with SkillSafari on your local machine, follow these steps:
 
 1. Clone the repository:
-
+```
   git clone https://github.com/your-username/SkillSafari.git
-
+```
 2. Install the dependencies for the backend and frontend:
-
+```
    cd SkillSafari
+```
+```
    npm install
+```
+```
    cd client
+```
+```
    npm install
-
+```
+```
+   cd ../server
+```
+```
+   npm install
+```
 
 3. Configure the environment variables:
 
@@ -44,9 +56,9 @@ To get started with SkillSafari on your local machine, follow these steps:
 - Set the required environment variables, such as MongoDB connection URI, JWT secret, etc.
 
 4. Run the development server:
-
+```
   npm run dev
-
+```
 
 5. Open your browser and visit `http://localhost:3000` to access the SkillSafari website.
 
