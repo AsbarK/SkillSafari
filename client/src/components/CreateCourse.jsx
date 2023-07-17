@@ -1,6 +1,7 @@
 import React from "react";
 import ShowCourses from "./ShowCourses";
-import { Button, TextField, Typography, Card, Box, Grid } from "@mui/material";
+import { Button, TextField, Typography, Card, Grid } from "@mui/material";
+import axios from "axios";
 
 function CreateCourse() {
   const [title, setTitle] = React.useState("");
@@ -9,24 +10,41 @@ function CreateCourse() {
   const [imgUrl, setImgUrl] = React.useState("");
   // const [editing, setEditing] = React.useState(false);
 
-  function createCourseBtn() {
+  async function createCourseBtn() {
     if (title === "" || description === "" || price === "") {
       return;
     }
-    fetch("http://localhost:3000/admin/courses", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: localStorage.getItem("token"),
-      },
-      body: JSON.stringify({
-        title,
-        description,
-        price,
-        imageLink: imgUrl,
-        published: true,
-      }),
-    }).catch((err) => console.log(err));
+    // fetch("http://localhost:3000/admin/courses", {
+    //   method: "POST",
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //     Authorization: localStorage.getItem("token"),
+    //   },
+    //   body: JSON.stringify({
+    //     title,
+    //     description,
+    //     price,
+    //     imageLink: imgUrl,
+    //     published: true,
+    //   }),
+    // }).catch((err) => console.log(err));
+    await axios
+      .put(
+        "http://localhost:3000/admin/courses",
+        {
+          title,
+          description,
+          price,
+          imageLink: imgUrl,
+          published: true,
+        },
+        {
+          headers: {
+            Authorization: localStorage.getItem("token"),
+          },
+        }
+      )
+      .catch((err) => console.log(err));
   }
 
   // const handleCreateCourseToggle = () => {
@@ -48,22 +66,24 @@ function CreateCourse() {
   return (
     <div style={{ width: "100vw", height: "100vh" }}>
       <center>
-        <Typography variant="h3" sx={{ color: "#2D4356" }}>
+        <Typography variant="h3" sx={{ color: "#DDE6ED" }}>
           Create Course
         </Typography>
 
         <Card
           sx={{
-            backgroundColor: "#FCAEAE",
-            border: "solid black 1px",
+            backgroundColor: "#176B87",
+            border: "solid #DAFFFB 1px",
             borderRadius: "20px",
             minHeight: "40%",
             padding: "1rem",
+            width: "80%",
           }}
         >
           <Grid container spacing={2} direction="column">
             <Grid item>
               <TextField
+                style={{ width: "90%", background: "#DAFFFB" }}
                 type="text"
                 fullWidth
                 id="filled-required-Title"
@@ -76,6 +96,7 @@ function CreateCourse() {
             </Grid>
             <Grid item>
               <TextField
+                style={{ width: "90%", background: "#DAFFFB" }}
                 type="text"
                 fullWidth
                 id="filled-required-Description"
@@ -88,6 +109,7 @@ function CreateCourse() {
             </Grid>
             <Grid item>
               <TextField
+                style={{ width: "90%", background: "#DAFFFB" }}
                 type="number"
                 fullWidth
                 id="filled-required-Price"
@@ -100,6 +122,7 @@ function CreateCourse() {
             </Grid>
             <Grid item>
               <TextField
+                style={{ width: "90%", background: "#DAFFFB" }}
                 type="text"
                 fullWidth
                 id="filled-required-Image-Url"
@@ -112,7 +135,8 @@ function CreateCourse() {
             </Grid>
             <Grid item>
               <Button
-                variant="contained"
+                style={{ backgroundColor: "#DAFFFB", color: "#001C30" }}
+                variant="outlined"
                 onClick={() => {
                   createCourseBtn();
                 }}

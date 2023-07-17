@@ -12,7 +12,7 @@ import { Card } from "@mui/material";
 const theme = createTheme({
   palette: {
     secondary: {
-      main: "#FF8989",
+      main: "#DDE6ED",
     },
   },
 });
@@ -104,8 +104,8 @@ function AuthTabs() {
 
 function Landing(props) {
   return (
-    <Card sx={{ backgroundColor: "#FCAEAE", marginTop: "20vh" }}>
-      <Typography variant="h3" sx={{ color: "#2D4356", marginTop: "8px" }}>
+    <Card sx={{ backgroundColor: "#176B87", marginTop: "20vh" }}>
+      <Typography variant="h3" sx={{ color: "#001C30", marginTop: "8px" }}>
         Welcome to course selling website!
       </Typography>
       {props.tab === "register" && <Register />}

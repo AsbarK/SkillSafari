@@ -1,5 +1,6 @@
 import { Button, TextField, Grid } from "@mui/material";
 import React from "react";
+import axios from "axios";
 
 function EditCourse(props) {
   const [title, setTitle] = React.useState("");
@@ -8,21 +9,38 @@ function EditCourse(props) {
   const [imgUrl, setImgUrl] = React.useState("");
   const [editing, setEditing] = React.useState(false);
 
-  function createCourseBtn() {
-    fetch("http://localhost:3000/admin/courses/" + props.id, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: localStorage.getItem("token"),
-      },
-      body: JSON.stringify({
-        title,
-        description,
-        price,
-        imageLink: imgUrl,
-        published: true,
-      }),
-    }).catch((err) => console.log(err));
+  async function createCourseBtn() {
+    // fetch("http://localhost:3000/admin/courses/" + props.id, {
+    //   method: "PUT",
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //     Authorization: localStorage.getItem("token"),
+    //   },
+    //   body: JSON.stringify({
+    //     title,
+    //     description,
+    //     price,
+    //     imageLink: imgUrl,
+    //     published: true,
+    //   }),
+    // }).catch((err) => console.log(err));
+    await axios
+      .put(
+        "http://localhost:3000/admin/courses/" + props.id,
+        {
+          title,
+          description,
+          price,
+          imageLink: imgUrl,
+          published: true,
+        },
+        {
+          headers: {
+            Authorization: localStorage.getItem("token"),
+          },
+        }
+      )
+      .catch((err) => console.log(err));
   }
 
   const handleToggle = () => {
@@ -48,17 +66,19 @@ function EditCourse(props) {
       {editing && (
         <div
           style={{
-            backgroundColor: "#FCAEAE",
+            backgroundColor: "#176B87",
             margin: "15px 20px 5px",
             borderRadius: "20px",
             border: "solid black 1px",
             padding: "1rem",
             marginBottom: "10px",
+            width: "90%",
           }}
         >
           <Grid container spacing={2} direction="column">
             <Grid item>
               <TextField
+                style={{ width: "90%", background: "#DAFFFB" }}
                 type="text"
                 fullWidth
                 id="filled-required-Title"
@@ -72,6 +92,7 @@ function EditCourse(props) {
             </Grid>
             <Grid item>
               <TextField
+                style={{ width: "90%", background: "#DAFFFB" }}
                 type="text"
                 fullWidth
                 id="filled-required-Description"
@@ -85,6 +106,7 @@ function EditCourse(props) {
             </Grid>
             <Grid item>
               <TextField
+                style={{ width: "90%", background: "#DAFFFB" }}
                 type="number"
                 fullWidth
                 id="filled-required-Price"
@@ -98,6 +120,7 @@ function EditCourse(props) {
             </Grid>
             <Grid item>
               <TextField
+                style={{ width: "90%", background: "#DAFFFB" }}
                 type="text"
                 fullWidth
                 id="filled-required-Image-Url"
@@ -112,11 +135,23 @@ function EditCourse(props) {
           </Grid>
         </div>
       )}
-      <Button variant="contained" onClick={handleToggle}>
+      <Button
+        style={{ backgroundColor: "#DAFFFB", color: "#001C30", margin: "1rem" }}
+        variant="outlined"
+        onClick={handleToggle}
+      >
         {editing ? "Cancel" : "Update Course"}
       </Button>
       {editing && (
-        <Button variant="contained" onClick={handleUpdateCourse}>
+        <Button
+          style={{
+            backgroundColor: "#DAFFFB",
+            color: "#001C30",
+            margin: "1rem",
+          }}
+          variant="outlined"
+          onClick={handleUpdateCourse}
+        >
           Save Changes
         </Button>
       )}

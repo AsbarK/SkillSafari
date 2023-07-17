@@ -2,26 +2,33 @@ import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import EditCourse from "./EditCourse";
 import { Button, Card, Typography } from "@mui/material";
-
+import axios from "axios";
 function ShowCourses(props) {
   const [courses, setCourses] = React.useState([]);
   const navigate = useNavigate();
   useEffect(() => {
-    fetch("http://localhost:3000/" + props.role + "/courses", {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: localStorage.getItem("token"),
-      },
-    })
-      .then((res) => res.json())
-      .then((data) => setCourses(data.courses));
+    // fetch("http://localhost:3000/" + props.role + "/courses", {
+    //   method: "GET",
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //     Authorization: localStorage.getItem("token"),
+    //   },
+    // })
+    //   .then((res) => res.json())
+    //   .then((data) => setCourses(data.courses));
+    axios
+      .get("http://localhost:3000/" + props.role + "/courses", {
+        headers: {
+          Authorization: localStorage.getItem("token"),
+        },
+      })
+      .then((res) => setCourses(res.data.courses));
   }, [courses]);
   // Add code to fetch courses from the server
   // and set it in the courses state variable.
   return (
     <center>
-      <Typography variant="h1" sx={{ color: "#2D4356", marginTop: "8px" }}>
+      <Typography variant="h1" sx={{ color: "#001C30", marginTop: "8px" }}>
         Course Page
       </Typography>
       {courses.map((c, index) => (
@@ -52,7 +59,7 @@ function Course(props) {
     <>
       <Card
         sx={{
-          backgroundColor: "#FCAEAE",
+          backgroundColor: "#64CCC5",
           border: "solid black 1px",
           borderRadius: "20px",
           height: "100px",
@@ -69,27 +76,34 @@ function Course(props) {
           height="100px"
           style={{ objectFit: "cover", borderRadius: "100px" }}
         />
-        <Typography variant="h5" sx={{ color: "#2D4356" }}>
+        <Typography variant="h5" sx={{ color: "#001C30" }}>
           {props.title}
         </Typography>
-        <Typography variant="h8" sx={{ color: "#2D4356" }}>
+        <Typography variant="h8" sx={{ color: "#001C30" }}>
           {"$" + props.price}
         </Typography>
 
         {props.role === "users" && (
           <Button
-            variant="contained"
-            sx={{ height: "100%" }}
+            style={{ backgroundColor: "#DAFFFB", color: "#001C30" }}
+            variant="outlined"
             onClick={() => {
-              fetch("http://localhost:3000/users/courses/" + props.id, {
-                method: "POST",
-                headers: {
-                  "Content-Type": "application/json",
-                  Authorization: localStorage.getItem("token"),
-                },
-              })
-                .then((res) => res.json())
-                .then((data) => alert(data.message));
+              // fetch("http://localhost:3000/users/courses/" + props.id, {
+              //   method: "POST",
+              //   headers: {
+              //     "Content-Type": "application/json",
+              //     Authorization: localStorage.getItem("token"),
+              //   },
+              // })
+              //   .then((res) => res.json())
+              //   .then((data) => alert(data.message));
+              axios
+                .post("http://localhost:3000/users/courses/" + props.id, {
+                  headers: {
+                    Authorization: localStorage.getItem("token"),
+                  },
+                })
+                .then((res) => alert(res.data.message));
             }}
           >
             Purchase
